@@ -12,8 +12,8 @@ namespace ZQ
         public float vertical;
         [HideInInspector]
         public float moveAmout;
-        private float mouseX;
-        private float mouseY;
+        public float mouseX;
+        public float mouseY;
         public bool IsOpposite;
         [HideInInspector]
         public bool rollFlag;
@@ -21,32 +21,26 @@ namespace ZQ
         public bool jumpFlag;
         [HideInInspector]
         public bool sprintFlag;
-        [HideInInspector]
-        public bool IsInteracting;
 
         private float rollSprintTimer;
         public bool ifrollSprintInput;
         private int Oppsite = -1;
+
         PlayerInputController playerInputController;
-        CameraHandler cameraHandler;
+        PlayerAttacker playerAttacker;
+        PlayerInventory playerInventory;
+
+        public bool rb_input;
+        public bool rt_input;
+
         
         Vector2 movementInput;
         Vector2 cameraInput;
 
-
         private void Awake()
         {
-            cameraHandler = CameraHandler.instance;
-        }
-        private void FixedUpdate()
-        {
-            float delta = Time.fixedDeltaTime;
-
-            if(cameraHandler != null)
-            {
-                cameraHandler.FollowTarget(delta);
-                cameraHandler.HandleCameraRotation(delta, mouseX, mouseY);
-            }
+            playerAttacker = GetComponent<PlayerAttacker>();
+            playerInventory = GetComponent<PlayerInventory>();
         }
         public void OnEnable()
         {
@@ -66,6 +60,7 @@ namespace ZQ
         {
             MoveInput(delta);
             HandleRollInput(delta);
+            HandleAttackInput(delta);
         }
         public void MoveInput(float dalta)
         {
@@ -79,7 +74,7 @@ namespace ZQ
         }
         public void HandleRollInput(float delta)
         {
-            ifrollSprintInput = playerInputController.PlayerActions.Rolling.phase == UnityEngine.InputSystem.InputActionPhase.Started;
+            ifrollSprintInput = playerInputController.PlayerActions.Rolling.phase == UnityEngine.InputSystem.InputActionPhase.Performed;
             if (ifrollSprintInput)
             {
                 rollSprintTimer += delta;
@@ -95,13 +90,37 @@ namespace ZQ
                 }
                 rollSprintTimer = 0;
             }
-                
-                
         }
         public void HandleJumoInput(float delta)
         {
             if(playerInputController.PlayerActions.Jump.phase == UnityEngine.InputSystem.InputActionPhase.Started)
                 jumpFlag = true;
+        }
+        float InputL_AttackTimer;
+        float InputH_AttackTimer;
+        public void HandleAttackInput(float delta)
+        {
+            playerInputController.PlayerActions.RB.performed += i => rb_input = true;
+            playerInputController.PlayerActions.RT.performed += i => rt_input = true;
+            
+            if (rb_input)
+            {
+                InputL_AttackTimer += delta;
+                if (InputL_AttackTimer > 1f)
+                {
+                    playerAttacker.HandleLightAttack(playerInventory.rightWeapon);
+                    InputL_AttackTimer = 0;
+                }
+            }
+            if(rt_input)
+            {
+                InputH_AttackTimer += delta;
+                if (InputH_AttackTimer > 0.02f)
+                {
+                    playerAttacker.HandleHeavyAttack(playerInventory.rightWeapon);
+                    InputH_AttackTimer = 0;
+                }
+            }
         }
     }
 }

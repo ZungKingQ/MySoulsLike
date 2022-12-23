@@ -18,7 +18,7 @@ namespace ZQ
         private float lookSpeedX = 0.1f;
         private float lookSpeedY = 0.03f;
 
-        private float followSpeed = 0.2f;
+        private float followSpeed = 2f;
         private float pivotSpeed = 0.03f;
 
         private float targetPosition;

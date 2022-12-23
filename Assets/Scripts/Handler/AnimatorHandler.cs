@@ -6,6 +6,7 @@ namespace ZQ
 {
     public class AnimatorHandler : MonoBehaviour
     {
+        public PlayerManager playerManager;
         public Animator animator;
         public InputHandler inputHandler;
         public PlayerLocomotion playerLocomotion;
@@ -17,9 +18,10 @@ namespace ZQ
         }
         public void Initialize()
         {
-            animator = GetComponent<Animator>();
+            animator = GetComponent<Animator>();        
             inputHandler = GetComponentInParent<InputHandler>();
             playerLocomotion = GetComponentInParent<PlayerLocomotion>();
+            playerManager = GetComponentInParent<PlayerManager>();
             vertical = Animator.StringToHash("vertical");
             horizontal = Animator.StringToHash("horizontal");
             canRotate = animator.GetBool("canRotate");
@@ -82,7 +84,7 @@ namespace ZQ
         }
         private void OnAnimatorMove()
         {
-            if (inputHandler.IsInteracting == false)
+            if (playerManager.isInteracting == false)
                 return;
 
             playerLocomotion.rigidbody.drag = 0;
