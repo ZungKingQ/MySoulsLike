@@ -33,9 +33,8 @@ namespace ZQ
         public bool rb_input;
         public bool rt_input;
 
-        
-        Vector2 movementInput;
-        Vector2 cameraInput;
+        private Vector2 movementInput;
+        private Vector2 cameraInput;
 
         private void Awake()
         {
@@ -47,7 +46,7 @@ namespace ZQ
             if (playerInputController == null)
             {
                 playerInputController = new PlayerInputController();
-                playerInputController.PlayerMovement.Move.performed += playerInputController => movementInput = playerInputController.ReadValue<Vector2>();
+                playerInputController.PlayerMovement.Move.performed += i => movementInput = i.ReadValue<Vector2>();
                 playerInputController.PlayerMovement.Camera.performed += i => cameraInput = i.ReadValue<Vector2>();
             }
             playerInputController.Enable();
@@ -96,8 +95,6 @@ namespace ZQ
             if(playerInputController.PlayerActions.Jump.phase == UnityEngine.InputSystem.InputActionPhase.Started)
                 jumpFlag = true;
         }
-        float InputL_AttackTimer;
-        float InputH_AttackTimer;
         public void HandleAttackInput(float delta)
         {
             playerInputController.PlayerActions.RB.performed += i => rb_input = true;
@@ -105,21 +102,11 @@ namespace ZQ
             
             if (rb_input)
             {
-                InputL_AttackTimer += delta;
-                if (InputL_AttackTimer > 1f)
-                {
-                    playerAttacker.HandleLightAttack(playerInventory.rightWeapon);
-                    InputL_AttackTimer = 0;
-                }
+                playerAttacker.HandleLightAttack(playerInventory.rightWeapon);
             }
             if(rt_input)
             {
-                InputH_AttackTimer += delta;
-                if (InputH_AttackTimer > 0.02f)
-                {
-                    playerAttacker.HandleHeavyAttack(playerInventory.rightWeapon);
-                    InputH_AttackTimer = 0;
-                }
+                playerAttacker.HandleHeavyAttack(playerInventory.rightWeapon);
             }
         }
     }
