@@ -21,6 +21,8 @@ namespace ZQ
         public bool jumpFlag;
         [HideInInspector]
         public bool sprintFlag;
+        [HideInInspector]
+        public bool comboFlag;
 
         private float rollSprintTimer;
         public bool ifrollSprintInput;
@@ -29,9 +31,14 @@ namespace ZQ
         PlayerInputController playerInputController;
         PlayerAttacker playerAttacker;
         PlayerInventory playerInventory;
+        PlayerManager playerManager;
 
         public bool rb_input;
         public bool rt_input;
+        public bool d_Pad_Up;
+        public bool d_Pad_Down;
+        public bool d_Pad_Left;
+        public bool d_Pad_Right;
 
         private Vector2 movementInput;
         private Vector2 cameraInput;
@@ -40,6 +47,7 @@ namespace ZQ
         {
             playerAttacker = GetComponent<PlayerAttacker>();
             playerInventory = GetComponent<PlayerInventory>();
+            playerManager = GetComponent<PlayerManager>();
         }
         public void OnEnable()
         {
@@ -60,6 +68,7 @@ namespace ZQ
             MoveInput(delta);
             HandleRollInput(delta);
             HandleAttackInput(delta);
+            HandleQuickSlotsInput();
         }
         public void MoveInput(float dalta)
         {
@@ -102,11 +111,40 @@ namespace ZQ
             
             if (rb_input)
             {
-                playerAttacker.HandleLightAttack(playerInventory.rightWeapon);
+                if(playerManager.canDoCombo)
+                {
+                    comboFlag = true;
+                    playerAttacker.HandleWeaponCombo(playerInventory.rightWeapon);
+                }
+                else
+                {
+                    if (playerManager.isInteracting)
+                        return;
+                    if (playerManager.canDoCombo)
+                        return;
+
+                    playerAttacker.HandleLightAttack(playerInventory.rightWeapon);
+
+                }
+                comboFlag = false;
             }
             if(rt_input)
             {
                 playerAttacker.HandleHeavyAttack(playerInventory.rightWeapon);
+            }
+        }
+        private void HandleQuickSlotsInput()
+        {
+            playerInputController.PlayerQuickSlots.DpadRight.performed += i => d_Pad_Right = true;
+            playerInputController.PlayerQuickSlots.DpadLeft.performed += i => d_Pad_Left = true;
+
+            if(d_Pad_Right)
+            {
+                playerInventory.ChangeRightWeapon();
+            }
+            else if(d_Pad_Left)
+            {
+                playerInventory.ChangeLeftWeapon();
             }
         }
     }

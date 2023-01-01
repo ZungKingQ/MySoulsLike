@@ -9,8 +9,16 @@ namespace ZQ
         WeaponHolderSlot leftHnadSlot;
         WeaponHolderSlot rightHnadSlot;
 
+        DamageCollider leftDamageCollider;
+        DamageCollider rightDamageCollider;
+
+        Animator animator;
+        QuickSlotUI quickSlotUI;
+
         private void Awake()
         {
+            quickSlotUI = FindObjectOfType<QuickSlotUI>();
+            animator = GetComponent<Animator>();
             WeaponHolderSlot[] weaponHolderSlots = GetComponentsInChildren<WeaponHolderSlot>();
             foreach (WeaponHolderSlot weaponHolderSlot in weaponHolderSlots)
             {
@@ -26,15 +34,68 @@ namespace ZQ
         }
         public void LoadWeaponOnSlot(WeaponItem weaponItem, bool isLeft)
         {
-            if(isLeft)
+            quickSlotUI.UpdateWeaponQuickSlotUI(weaponItem, isLeft);
+
+            if (isLeft)
             {
                 leftHnadSlot.LoadWeaponModel(weaponItem);
+                LoadLeftWeaponDamageCollider();
+                
+                #region Handle Arm Idle Animation
+                if (weaponItem != null)
+                {
+                    animator.CrossFade(weaponItem.left_hand_idle, 0.2f);
+                }
+                else
+                {
+                    animator.CrossFade("Left Arm Empty", 0.2f);
+                }
+                #endregion
             }
             else
             {
                 rightHnadSlot.LoadWeaponModel(weaponItem);
+                LoadRightWeaponDamageCollider();
+
+                #region Handle Arm Idle Animation
+                if (weaponItem != null)
+                {
+                    animator.CrossFade(weaponItem.right_hand_idle, 0.2f);
+                }
+                else
+                {
+                    animator.CrossFade("Right Arm Empty", 0.2f);
+                }
+                #endregion
             }
         }
+
+        #region Handle Weapon Damage Collider
+        private void LoadLeftWeaponDamageCollider()
+        {
+            leftDamageCollider = leftHnadSlot.currentWeaponModel.GetComponentInChildren<DamageCollider>();
+        }
+        private void LoadRightWeaponDamageCollider()
+        {
+            rightDamageCollider = rightHnadSlot.currentWeaponModel.GetComponentInChildren<DamageCollider>();
+        }
+        public void OpenLeftDamageCollider()
+        {
+            leftDamageCollider.EnableDamageCollider();
+        }
+        public void OpenRightDamageCollider()
+        {
+            rightDamageCollider.EnableDamageCollider();
+        }
+        public void CloseLeftDamageCollider()
+        {
+            leftDamageCollider.DisableDamageCollider();
+        }
+        public void CloseRightDamageCollider()
+        {
+            rightDamageCollider.DisableDamageCollider();
+        }
+        #endregion
     }
 }
 

@@ -14,9 +14,29 @@ namespace ZQ
         public GameObject weaponPrefab;
         public bool isUnarmed;
 
-        [Header("One Hnaded Attack Animations")]
-        public string OneHnad_Light_Attack;
-        public string OneHnad_Heavy_Attack;
+
+        #region Idle Animations
+        public string right_hand_idle;
+        public string left_hand_idle;
+        //public Dictionary<int, string> OneHnad_Light_Attack = new Dictionary<int, string>
+        //{
+        //    {1, "standing_melee_attack_horizontal"},
+        //    {2, "standing_melee_attack_downward"}
+        //};
+        #endregion
+        #region One Hnaded Attack Animations
+        public Dictionary<int, string> OneHnad_Light_Attack = new Dictionary<int, string>
+        {
+            {1, "standing_melee_attack_downward"},
+            {2, "standing_melee_attack_horizontal"}
+        };
+        public Dictionary<int, string> OneHnad_Heavy_Attack = new Dictionary<int, string>
+        {
+            {1, "standing_melee_combo_attack_ver_1"},
+            {2, "standing_melee_combo_attack_ver_2"},
+            {3, "standing_melee_combo_attack_ver_3"}
+        };
+        #endregion
     }
 }
 

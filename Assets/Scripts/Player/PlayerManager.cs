@@ -14,9 +14,10 @@ namespace ZQ
         public bool isInteracting;
         public bool isInAir;
         public bool isGrounded;
+        public bool canDoCombo;
         private void Awake()
         {
-            cameraHandler = CameraHandler.instance;
+            cameraHandler = FindObjectOfType<CameraHandler>();
         }
         void Start()
         {
@@ -28,7 +29,7 @@ namespace ZQ
         void Update()
         {
             isInteracting = animator.GetBool("IsInteracting");
-            
+            canDoCombo = animator.GetBool("canDoCombo");
             inputHandler.TickInput(Time.deltaTime);
             this.isSprinting = inputHandler.ifrollSprintInput;
             playerLocomotion.HandleMovement(Time.deltaTime);
@@ -52,7 +53,11 @@ namespace ZQ
             inputHandler.sprintFlag = false;
             inputHandler.rb_input = false;
             inputHandler.rt_input = false;
-              
+            inputHandler.d_Pad_Up = false;
+            inputHandler.d_Pad_Down = false;
+            inputHandler.d_Pad_Left = false;
+            inputHandler.d_Pad_Right = false;
+            
             if(isInAir)
             {
                 playerLocomotion.intAirTimer += Time.deltaTime;

@@ -74,7 +74,14 @@ namespace ZQ
         {
             canRotate = false;
         }
-
+        public void CanCombo()
+        {
+            animator.SetBool("canDoCombo", true);
+        }
+        public void CantCombo()
+        {
+            animator.SetBool("canDoCombo", false);
+        }    
         public void PlayTargetAnimation(string targetAnim,bool IsInteracting)
         {
             animator.applyRootMotion = IsInteracting;

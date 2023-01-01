@@ -40,6 +40,7 @@ namespace ZQ
             defaultPosition = cameraTransform.localPosition.z;
             //¹Ø±Õ8¡¢9¡¢10µÄ²ã
             ignoreLayers = ~(1 << 8 | 1 << 9 | 1 << 10);
+            targetTransform = FindObjectOfType<PlayerManager>().transform;
         }
         public void FollowTarget(float delta)
         {

@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 8923662983498032559}
   - component: {fileID: 8923662983498032553}
   - component: {fileID: 8923662983498032558}
+  - component: {fileID: 5133255987096683816}
+  - component: {fileID: 2095649702560898301}
   m_Layer: 17
   m_Name: BasicSteelOneHandSword
   m_TagString: Untagged
@@ -81,6 +83,32 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &5133255987096683816
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8923662983498032556}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.03534418, y: 0.88454443, z: 0.17738983}
+  m_Center: {x: 0.00000050592405, y: 0.52717644, z: -0.00000042508358}
+--- !u!114 &2095649702560898301
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8923662983498032556}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e964d153f458c3d42a58bd378d18b46e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentWeaponDamage: 25
 --- !u!1 &8923662983721742087
 GameObject:
   m_ObjectHideFlags: 0
@@ -104,14 +132,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8923662983721742087}
-  m_LocalRotation: {x: -0.6597006, y: 0.17767853, z: -0.3692419, w: 0.62998885}
-  m_LocalPosition: {x: 10.22, y: 3.71, z: -2.65}
+  m_LocalRotation: {x: -0.5846623, y: 0.07278053, z: -0.43284944, w: 0.6822862}
+  m_LocalPosition: {x: 8, y: 3.1, z: -3}
   m_LocalScale: {x: 100, y: 100, z: 100}
   m_Children:
   - {fileID: 8923662983498032559}
   m_Father: {fileID: 8923662983755797906}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: -44.427, y: 84.661, z: -101.558}
+  m_LocalEulerAnglesHint: {x: -47.291, y: 63.207, z: -94.937}
 --- !u!1 &8923662983755797907
 GameObject:
   m_ObjectHideFlags: 0
@@ -135,8 +163,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8923662983755797907}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.613, z: 0.439}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 8923662983721742086}

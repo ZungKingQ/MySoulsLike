@@ -10,7 +10,7 @@ namespace ZQ
         public int maxHealth;
         public int currentHealth;
 
-        public HealthBar healthBar;
+        public HealthBarUI healthBar;
         AnimatorHandler animHandler;
 
         private void Awake()

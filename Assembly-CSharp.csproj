@@ -60,11 +60,16 @@
     <Compile Include="Assets\Mixamo\Magic Pack\Demo\CameraScroll.cs" />
     <Compile Include="Assets\Scripts\Items\Item.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerManager.cs" />
+    <Compile Include="Assets\Scripts\Items\DamageCollider.cs" />
+    <Compile Include="Assets\Scripts\DamagePlayer.cs" />
     <Compile Include="Assets\Scripts\Handler\AnimatorHandler.cs" />
     <Compile Include="Assets\PolygonFantasyHeroCharacters\Scripts\CharacterRandomizer.cs" />
     <Compile Include="Assets\Scripts\Test.cs" />
     <Compile Include="Assets\Scripts\Handler\InputHandler.cs" />
+    <Compile Include="Assets\Scripts\Player\PlayerStats.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerAttacker.cs" />
+    <Compile Include="Assets\Scripts\UI\HealthBarUI.cs" />
+    <Compile Include="Assets\Scripts\Enemy\EnemyStats.cs" />
     <Compile Include="Assets\PlayerInputController.cs" />
     <Compile Include="Assets\Scripts\Items\WeaponHolderSlot.cs" />
     <Compile Include="Assets\Scripts\Items\WeaponItem.cs" />
@@ -72,9 +77,7 @@
     <Compile Include="Assets\Scripts\Handler\CameraHandler.cs" />
     <Compile Include="Assets\Scripts\ResetAnimatorBool.cs" />
     <Compile Include="Assets\Scripts\Items\WeaponSlotManager.cs" />
-    <Compile Include="Assets\Scripts\UI\HealthBar.cs" />
-    <Compile Include="Assets\Scripts\Player\PlayerStats.cs" />
-    <Compile Include="Assets\Scripts\DamagePlayer.cs" />
+    <Compile Include="Assets\Scripts\UI\QuickSlotUI.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\PolygonFantasyHeroCharacters\Shaders\POLYGON_CustomCharacters.shader" />
@@ -671,6 +674,9 @@
     <Reference Include="Unity.TextMeshPro">
       <HintPath>Library\ScriptAssemblies\Unity.TextMeshPro.dll</HintPath>
     </Reference>
+    <Reference Include="Unity.2D.Sprite.Editor">
+      <HintPath>Library\ScriptAssemblies\Unity.2D.Sprite.Editor.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEditor.UI">
       <HintPath>Library\ScriptAssemblies\UnityEditor.UI.dll</HintPath>
     </Reference>
@@ -685,9 +691,6 @@
     </Reference>
     <Reference Include="Unity.PlasticSCM.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.PlasticSCM.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.2D.Sprite.Editor">
-      <HintPath>Library\ScriptAssemblies\Unity.2D.Sprite.Editor.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

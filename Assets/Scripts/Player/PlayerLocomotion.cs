@@ -131,7 +131,7 @@ namespace ZQ
                 moveDirection += cameraObject.right * inputHandler.horizontal;
                 if(inputHandler.moveAmout > 0)
                 {
-                    animatorHandler.PlayTargetAnimation("Rolling", true);
+                    animatorHandler.PlayTargetAnimation("Stand To Roll", true);
                     moveDirection.y = 0;
                     myTransform.rotation = Quaternion.LookRotation(moveDirection);
                     animatorHandler.animator.SetBool("IsInteracting", false);
@@ -231,6 +231,11 @@ namespace ZQ
                     myTransform.position = targetPositon;
                 }
             }
+            // 这一段解决互动或移动时模型的脚陷入地面
+            if (playerManager.isInteracting || inputHandler.moveAmout > 0)
+                myTransform.position = Vector3.Lerp(myTransform.position, targetPositon, delta / 0.1f);
+            else
+                myTransform.position = targetPositon;
         }
     }
     
