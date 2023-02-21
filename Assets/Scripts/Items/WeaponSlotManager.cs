@@ -15,10 +15,16 @@ namespace ZQ
         Animator animator;
         QuickSlotUI quickSlotUI;
 
+        PlayerStats playerStats;
+
+        public WeaponItem attackingWeapon;
+
         private void Awake()
         {
             quickSlotUI = FindObjectOfType<QuickSlotUI>();
             animator = GetComponent<Animator>();
+            playerStats = GetComponentInParent<PlayerStats>();
+
             WeaponHolderSlot[] weaponHolderSlots = GetComponentsInChildren<WeaponHolderSlot>();
             foreach (WeaponHolderSlot weaponHolderSlot in weaponHolderSlots)
             {
@@ -94,6 +100,17 @@ namespace ZQ
         public void CloseRightDamageCollider()
         {
             rightDamageCollider.DisableDamageCollider();
+        }
+        #endregion
+
+        #region Handle Weapon Stamina Drain
+        public void DrainStaminaLightAttack()
+        {
+            playerStats.TakeStaminaDrain(Mathf.RoundToInt(attackingWeapon.baseStamina * attackingWeapon.lightAttackMultiplier));
+        }
+        public void DrainStaminaHeavyAttack()
+        {
+            playerStats.TakeStaminaDrain(Mathf.RoundToInt(attackingWeapon.baseStamina * attackingWeapon.heavyAttackMultiplier));
         }
         #endregion
     }

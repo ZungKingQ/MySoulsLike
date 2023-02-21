@@ -39,7 +39,7 @@ namespace ZQ
         [SerializeField]
         float rotationSpeed = 10;
         [SerializeField]
-        float fallingSpeed = 70;
+        float fallingSpeed = 300;
 
 
         private void Start()
@@ -81,7 +81,6 @@ namespace ZQ
 
             myTransform.rotation = targetRotation;
         }
-        #endregion
         public void HandleMovement(float delta)
         {
             if (inputHandler.rollFlag)
@@ -120,10 +119,9 @@ namespace ZQ
                 HandleRotation(Time.deltaTime);
             }
         }
-
         public void HandleRollingAndSprinting(float delta)
         {
-            if (animatorHandler.animator.GetBool("IsInteracting"))
+            if (animatorHandler.animator.GetBool("isInteracting"))
                 return;
             if(inputHandler.rollFlag)
             {
@@ -134,19 +132,14 @@ namespace ZQ
                     animatorHandler.PlayTargetAnimation("Stand To Roll", true);
                     moveDirection.y = 0;
                     myTransform.rotation = Quaternion.LookRotation(moveDirection);
-                    animatorHandler.animator.SetBool("IsInteracting", false);
+                    animatorHandler.animator.SetBool("isInteracting", false);
                 }
                 else 
                 {
                     animatorHandler.PlayTargetAnimation("Crouch_Walk_Back", true);
                 }
             }
-            if (inputHandler.jumpFlag)
-            {
-                animatorHandler.PlayTargetAnimation("Jump", true);
-            }
         }
-
         public void HandleFalling(float delta, Vector3 moveDirection)
         {
             playerManager.isGrounded = false;
@@ -237,6 +230,30 @@ namespace ZQ
             else
                 myTransform.position = targetPositon;
         }
+        public void HandleJumping()
+        {
+            if (playerManager.isInteracting)
+                return;
+
+            if(inputHandler.jump_Input)
+            {
+                if(inputHandler.moveAmout >= 0)
+                {
+                    moveDirection = cameraObject.forward * inputHandler.vertical;
+                    moveDirection += cameraObject.right * inputHandler.horizontal;
+
+                    animatorHandler.PlayTargetAnimation("Jump", true);
+                    //animatorHandler.PlayTargetAnimation("Standing_Jump", true);
+                    moveDirection.y = 0;
+                    Quaternion jumpRotation = Quaternion.LookRotation(moveDirection);
+                    myTransform.rotation = jumpRotation;
+                }
+            }
+        }
+
+
+
+        #endregion
     }
-    
+
 }

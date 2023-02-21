@@ -58,14 +58,21 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\Player\PlayerInventory.cs" />
     <Compile Include="Assets\Mixamo\Magic Pack\Demo\CameraScroll.cs" />
+    <Compile Include="Assets\Scripts\UI\WeaponInventorySlot.cs" />
     <Compile Include="Assets\Scripts\Items\Item.cs" />
+    <Compile Include="Assets\Scripts\UI\UIManager.cs" />
+    <Compile Include="Assets\Scripts\UI\HandleEquitmentSlotUI.cs" />
+    <Compile Include="Assets\Scripts\UI\StaminaBarUI.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerManager.cs" />
     <Compile Include="Assets\Scripts\Items\DamageCollider.cs" />
     <Compile Include="Assets\Scripts\DamagePlayer.cs" />
     <Compile Include="Assets\Scripts\Handler\AnimatorHandler.cs" />
+    <Compile Include="Assets\Scripts\UI\EquitmentWindowUI.cs" />
     <Compile Include="Assets\PolygonFantasyHeroCharacters\Scripts\CharacterRandomizer.cs" />
     <Compile Include="Assets\Scripts\Test.cs" />
+    <Compile Include="Assets\Scripts\UI\QuickSlotUI.cs" />
     <Compile Include="Assets\Scripts\Handler\InputHandler.cs" />
+    <Compile Include="Assets\Scripts\UI\InteractableUI.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerStats.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerAttacker.cs" />
     <Compile Include="Assets\Scripts\UI\HealthBarUI.cs" />
@@ -74,13 +81,18 @@
     <Compile Include="Assets\Scripts\Items\WeaponHolderSlot.cs" />
     <Compile Include="Assets\Scripts\Items\WeaponItem.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerLocomotion.cs" />
+    <Compile Include="Assets\Scripts\Items\WeaponPickUp.cs" />
+    <Compile Include="Assets\TestIK.cs" />
     <Compile Include="Assets\Scripts\Handler\CameraHandler.cs" />
     <Compile Include="Assets\Scripts\ResetAnimatorBool.cs" />
     <Compile Include="Assets\Scripts\Items\WeaponSlotManager.cs" />
-    <Compile Include="Assets\Scripts\UI\QuickSlotUI.cs" />
+    <Compile Include="Assets\Scripts\Items\Interactable.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Assets\Art\Models\爱莉希雅女仆\使用规则.txt" />
+    <None Include="Assets\Art\Models\爱莉希雅女仆\爱莉希雅女仆.MMD4Mecanim.xml" />
     <None Include="Assets\PolygonFantasyHeroCharacters\Shaders\POLYGON_CustomCharacters.shader" />
+    <None Include="Assets\Art\Models\爱莉希雅女仆\爱莉希雅女仆.xml" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

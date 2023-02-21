@@ -10,6 +10,11 @@ namespace ZQ
         Animator animator;
         CameraHandler cameraHandler;
         PlayerLocomotion playerLocomotion;
+        InteractableUI interactableUI;
+
+        public GameObject interactionPopUp;
+        public GameObject itemPopUp;
+
         public bool isSprinting;
         public bool isInteracting;
         public bool isInAir;
@@ -18,6 +23,7 @@ namespace ZQ
         private void Awake()
         {
             cameraHandler = FindObjectOfType<CameraHandler>();
+            interactableUI = FindObjectOfType<InteractableUI>();
         }
         void Start()
         {
@@ -28,18 +34,26 @@ namespace ZQ
 
         void Update()
         {
-            isInteracting = animator.GetBool("IsInteracting");
+            float delta = Time.fixedDeltaTime;
+
+            isInteracting = animator.GetBool("isInteracting");
             canDoCombo = animator.GetBool("canDoCombo");
-            inputHandler.TickInput(Time.deltaTime);
+            animator.SetBool("isInAir", isInAir);
+            inputHandler.TickInput(delta);
             this.isSprinting = inputHandler.ifrollSprintInput;
-            playerLocomotion.HandleMovement(Time.deltaTime);
-            playerLocomotion.HandleRollingAndSprinting(Time.deltaTime);
-            playerLocomotion.HandleFalling(Time.deltaTime, playerLocomotion.moveDirection);
+
+            playerLocomotion.HandleRollingAndSprinting(delta);
+            playerLocomotion.HandleJumping();
+
+            CheckForInteractableObject();
         }
 
         private void FixedUpdate()
         {
             float delta = Time.fixedDeltaTime;
+
+            playerLocomotion.HandleMovement(delta);
+            playerLocomotion.HandleFalling(delta, playerLocomotion.moveDirection);
 
             if (cameraHandler != null)
             {
@@ -49,10 +63,15 @@ namespace ZQ
         }
         private void LateUpdate()
         {
+            float delta = Time.fixedDeltaTime;
+
             inputHandler.rollFlag = false;
-            inputHandler.sprintFlag = false;
-            inputHandler.rb_input = false;
-            inputHandler.rt_input = false;
+            inputHandler.a_Input = false;
+            inputHandler.rb_Input = false;
+            inputHandler.rt_Input = false;
+            inputHandler.jump_Input = false;
+            inputHandler.inventoryUI_Input = false;
+            inputHandler.equitmentUI_Input = false;
             inputHandler.d_Pad_Up = false;
             inputHandler.d_Pad_Down = false;
             inputHandler.d_Pad_Left = false;
@@ -62,6 +81,48 @@ namespace ZQ
             {
                 playerLocomotion.intAirTimer += Time.deltaTime;
             }
+
+            
+        }
+        public void CheckForInteractableObject()
+        {
+            RaycastHit hit;
+            if (Physics.SphereCast(transform.position, 0.3f, transform.forward, out hit, 1f, cameraHandler.ignoreLayers))
+            {
+                if(hit.collider.tag == "Interactable")
+                {
+                    Interactable interactableObject = hit.collider.GetComponent<Interactable>();
+
+                    if(interactableObject != null)
+                    {
+                        string interactableText = interactableObject.interactableText;
+                        interactableUI.interactableText.text = interactableText;
+                        interactionPopUp.SetActive(true);
+
+                        if(inputHandler.a_Input)
+                        {
+                            hit.collider.GetComponent<Interactable>().Interact(this);
+                            StartCoroutine(InteractFading());
+                        }
+                    }
+                }
+            }
+            else
+            {
+                if(interactionPopUp != null)
+                {
+                    interactionPopUp.SetActive(false);
+                }
+                //if (itemPopUp != null)
+                //{
+                //    itemPopUp.SetActive(false);
+                //}
+            }
+        }
+        IEnumerator InteractFading()
+        {
+            yield return new WaitForSeconds(1.5f);
+            this.itemPopUp.SetActive(false);
         }
     }
 }

@@ -8,19 +8,24 @@ namespace ZQ
     {
         AnimatorHandler animatorHandler;
         InputHandler inputHandler;
+        WeaponSlotManager weaponSlotManager;
+
         public string lastAttack;
         private void Awake()
         {
+            weaponSlotManager = GetComponentInChildren<WeaponSlotManager>();
             animatorHandler = GetComponentInChildren<AnimatorHandler>();
             inputHandler = GetComponent<InputHandler>();
         }
         public void HandleLightAttack(WeaponItem weapon)
         {
+            weaponSlotManager.attackingWeapon = weapon;
             animatorHandler.PlayTargetAnimation(weapon.OneHnad_Light_Attack[1], true);
             lastAttack = weapon.OneHnad_Light_Attack[1];
         }
         public void HandleHeavyAttack(WeaponItem weapon)
         {
+            weaponSlotManager.attackingWeapon = weapon;
             animatorHandler.PlayTargetAnimation(weapon.OneHnad_Heavy_Attack[1], true);
             lastAttack = weapon.OneHnad_Heavy_Attack[1];
         }

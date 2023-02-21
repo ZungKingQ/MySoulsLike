@@ -37,6 +37,11 @@ namespace ZQ
             {3, "standing_melee_combo_attack_ver_3"}
         };
         #endregion
+
+        [Header("Stamina Costs")]
+        public int baseStamina;
+        public float lightAttackMultiplier;
+        public float heavyAttackMultiplier;
     }
 }
 

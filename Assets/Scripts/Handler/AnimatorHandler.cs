@@ -85,7 +85,7 @@ namespace ZQ
         public void PlayTargetAnimation(string targetAnim,bool IsInteracting)
         {
             animator.applyRootMotion = IsInteracting;
-            animator.SetBool("IsInteracting", IsInteracting);
+            animator.SetBool("isInteracting", IsInteracting);
             //在0.2s内完成动作的衔接
             animator.CrossFade(targetAnim, 0.2f);
         }

@@ -165,6 +165,24 @@ public partial class @PlayerInputController : IInputActionCollection2, IDisposab
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Interact"",
+                    ""type"": ""Button"",
+                    ""id"": ""726addf3-6d22-4ca0-99f2-284a7337b02f"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""InventouryUI"",
+                    ""type"": ""Button"",
+                    ""id"": ""2103e762-1d8d-41f0-ad06-60e695844d0d"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -220,6 +238,28 @@ public partial class @PlayerInputController : IInputActionCollection2, IDisposab
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""RT"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""fed14efc-cfe1-47a5-bcb1-02f6be0f65fc"",
+                    ""path"": ""<Keyboard>/f"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Interact"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""dfd66515-c139-4e7b-acad-3a6247358234"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""InventouryUI"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -370,6 +410,8 @@ public partial class @PlayerInputController : IInputActionCollection2, IDisposab
         m_PlayerActions_Jump = m_PlayerActions.FindAction("Jump", throwIfNotFound: true);
         m_PlayerActions_RB = m_PlayerActions.FindAction("RB", throwIfNotFound: true);
         m_PlayerActions_RT = m_PlayerActions.FindAction("RT", throwIfNotFound: true);
+        m_PlayerActions_Interact = m_PlayerActions.FindAction("Interact", throwIfNotFound: true);
+        m_PlayerActions_InventouryUI = m_PlayerActions.FindAction("InventouryUI", throwIfNotFound: true);
         // Player Quick Slots
         m_PlayerQuickSlots = asset.FindActionMap("Player Quick Slots", throwIfNotFound: true);
         m_PlayerQuickSlots_Dpadup = m_PlayerQuickSlots.FindAction("D-pad up", throwIfNotFound: true);
@@ -480,6 +522,8 @@ public partial class @PlayerInputController : IInputActionCollection2, IDisposab
     private readonly InputAction m_PlayerActions_Jump;
     private readonly InputAction m_PlayerActions_RB;
     private readonly InputAction m_PlayerActions_RT;
+    private readonly InputAction m_PlayerActions_Interact;
+    private readonly InputAction m_PlayerActions_InventouryUI;
     public struct PlayerActionsActions
     {
         private @PlayerInputController m_Wrapper;
@@ -488,6 +532,8 @@ public partial class @PlayerInputController : IInputActionCollection2, IDisposab
         public InputAction @Jump => m_Wrapper.m_PlayerActions_Jump;
         public InputAction @RB => m_Wrapper.m_PlayerActions_RB;
         public InputAction @RT => m_Wrapper.m_PlayerActions_RT;
+        public InputAction @Interact => m_Wrapper.m_PlayerActions_Interact;
+        public InputAction @InventouryUI => m_Wrapper.m_PlayerActions_InventouryUI;
         public InputActionMap Get() { return m_Wrapper.m_PlayerActions; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -509,6 +555,12 @@ public partial class @PlayerInputController : IInputActionCollection2, IDisposab
                 @RT.started -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnRT;
                 @RT.performed -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnRT;
                 @RT.canceled -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnRT;
+                @Interact.started -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnInteract;
+                @Interact.performed -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnInteract;
+                @Interact.canceled -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnInteract;
+                @InventouryUI.started -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnInventouryUI;
+                @InventouryUI.performed -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnInventouryUI;
+                @InventouryUI.canceled -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnInventouryUI;
             }
             m_Wrapper.m_PlayerActionsActionsCallbackInterface = instance;
             if (instance != null)
@@ -525,6 +577,12 @@ public partial class @PlayerInputController : IInputActionCollection2, IDisposab
                 @RT.started += instance.OnRT;
                 @RT.performed += instance.OnRT;
                 @RT.canceled += instance.OnRT;
+                @Interact.started += instance.OnInteract;
+                @Interact.performed += instance.OnInteract;
+                @Interact.canceled += instance.OnInteract;
+                @InventouryUI.started += instance.OnInventouryUI;
+                @InventouryUI.performed += instance.OnInventouryUI;
+                @InventouryUI.canceled += instance.OnInventouryUI;
             }
         }
     }
@@ -597,6 +655,8 @@ public partial class @PlayerInputController : IInputActionCollection2, IDisposab
         void OnJump(InputAction.CallbackContext context);
         void OnRB(InputAction.CallbackContext context);
         void OnRT(InputAction.CallbackContext context);
+        void OnInteract(InputAction.CallbackContext context);
+        void OnInventouryUI(InputAction.CallbackContext context);
     }
     public interface IPlayerQuickSlotsActions
     {
