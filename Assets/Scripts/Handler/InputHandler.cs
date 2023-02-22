@@ -11,6 +11,7 @@ namespace ZQ
         PlayerInventory playerInventory;
         PlayerManager playerManager;
         UIManager uiManager;
+        CameraHandler cameraHandler;
 
         [Header("Input Information")]
         public float horizontal;
@@ -28,6 +29,7 @@ namespace ZQ
         public bool sprintFlag;
         public bool comboFlag;
         public bool inventoryUI_Flag;
+        public bool lockOn_Flag;
 
         public bool a_Input;
         public bool rb_Input;
@@ -35,6 +37,9 @@ namespace ZQ
         public bool jump_Input;
         public bool inventoryUI_Input;
         public bool equitmentUI_Input;
+        public bool lockOn_Input;
+        public bool lockOnLeft_Input;
+        public bool lockOnRight_Input;
         public bool d_Pad_Up;
         public bool d_Pad_Down;
         public bool d_Pad_Left;
@@ -49,6 +54,7 @@ namespace ZQ
             playerInventory = GetComponent<PlayerInventory>();
             playerManager = GetComponent<PlayerManager>();
             uiManager = FindObjectOfType<UIManager>();
+            cameraHandler = FindObjectOfType<CameraHandler>();
         }
         public void OnEnable()
         {
@@ -64,6 +70,9 @@ namespace ZQ
                 playerInputController.PlayerActions.Interact.performed += i => a_Input = true;
                 playerInputController.PlayerActions.Jump.performed += i => jump_Input = true;
                 playerInputController.PlayerActions.InventouryUI.performed += i => inventoryUI_Input = true;
+                playerInputController.PlayerActions.LockOn.performed += i => lockOn_Input = true;
+                playerInputController.PlayerActions.LockOnLeft.performed += i => lockOnLeft_Input = true;
+                playerInputController.PlayerActions.LockOnRight.performed += i => lockOnRight_Input = true;
             }
             playerInputController.Enable();
         }
@@ -78,6 +87,7 @@ namespace ZQ
             HandleAttackInput(delta);
             HandleQuickSlotsInput();
             HandleInventoryUIInput();
+            HandleLockOnInput();
         }
         public void MoveInput(float dalta)
         {
@@ -182,6 +192,51 @@ namespace ZQ
                     uiManager.CloseSelectWindow();
                     uiManager.ClosAllInventoryWindow();
                     uiManager.hudWindow.SetActive(true);
+                }
+            }
+        }
+        private void HandleLockOnInput()
+        {
+            if(lockOn_Input && !lockOn_Flag)
+            {
+                cameraHandler.ClearLockOnTargets();
+                lockOn_Input = false;
+                // 将最近的锁定目标设置为当前锁定目标
+                cameraHandler.currentLockOnTarget = cameraHandler.nearestLockOnTarget;
+                CameraHandler.instance.HandleLockOn();
+                if(cameraHandler.nearestLockOnTarget != null)
+                {
+                    cameraHandler.currentLockOnTarget = cameraHandler.nearestLockOnTarget;
+                    lockOn_Flag = true;
+                }
+            }
+            // 退出锁定
+            else if(lockOn_Input && lockOn_Flag)
+            {
+                lockOn_Input = false;
+                lockOn_Flag = false;
+                cameraHandler.ClearLockOnTargets();
+            }
+
+            if(lockOn_Flag && lockOnLeft_Input)
+            {
+                lockOnLeft_Input = false;
+                cameraHandler.HandleLockOn();
+                if(cameraHandler.leftLockOnTarget != null)
+                {
+                    // 将左侧锁定
+                    cameraHandler.currentLockOnTarget = cameraHandler.leftLockOnTarget;
+                }
+            }
+
+            if (lockOn_Flag && lockOnRight_Input)
+            {
+                lockOnRight_Input = false;
+                cameraHandler.HandleLockOn();
+                if (cameraHandler.rightLockOnTarget != null)
+                {
+                    // 将右侧锁定
+                    cameraHandler.currentLockOnTarget = cameraHandler.rightLockOnTarget;
                 }
             }
         }

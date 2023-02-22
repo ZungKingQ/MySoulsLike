@@ -183,6 +183,42 @@ public partial class @PlayerInputController : IInputActionCollection2, IDisposab
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""LockOn"",
+                    ""type"": ""Button"",
+                    ""id"": ""066708cd-7dc3-47b4-ab1f-0af6901cb14b"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Lock On Rolling"",
+                    ""type"": ""Value"",
+                    ""id"": ""c48cf75e-6823-4a3f-8b08-05c4e7cd5a52"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Lock On Left"",
+                    ""type"": ""Button"",
+                    ""id"": ""74814a8c-ce24-43c3-81da-0d2b166a09a9"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Lock On Right"",
+                    ""type"": ""Button"",
+                    ""id"": ""f12d3d12-02cb-4972-b5cc-32277212f896"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -260,6 +296,50 @@ public partial class @PlayerInputController : IInputActionCollection2, IDisposab
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""InventouryUI"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""dd8f949d-3258-420e-aa20-ea19abb2a972"",
+                    ""path"": ""<Mouse>/middleButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""LockOn"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e2d54638-5c18-4664-9687-c0c8f513ab2b"",
+                    ""path"": ""<Mouse>/middleButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Lock On Rolling"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""01402d1b-c367-45d4-b7de-26640e5f1ac7"",
+                    ""path"": ""<Keyboard>/pageUp"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Lock On Left"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""bbaf3e79-9cbb-4ab8-a79a-b2868f837e2a"",
+                    ""path"": ""<Keyboard>/pageDown"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Lock On Right"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -412,6 +492,10 @@ public partial class @PlayerInputController : IInputActionCollection2, IDisposab
         m_PlayerActions_RT = m_PlayerActions.FindAction("RT", throwIfNotFound: true);
         m_PlayerActions_Interact = m_PlayerActions.FindAction("Interact", throwIfNotFound: true);
         m_PlayerActions_InventouryUI = m_PlayerActions.FindAction("InventouryUI", throwIfNotFound: true);
+        m_PlayerActions_LockOn = m_PlayerActions.FindAction("LockOn", throwIfNotFound: true);
+        m_PlayerActions_LockOnRolling = m_PlayerActions.FindAction("Lock On Rolling", throwIfNotFound: true);
+        m_PlayerActions_LockOnLeft = m_PlayerActions.FindAction("Lock On Left", throwIfNotFound: true);
+        m_PlayerActions_LockOnRight = m_PlayerActions.FindAction("Lock On Right", throwIfNotFound: true);
         // Player Quick Slots
         m_PlayerQuickSlots = asset.FindActionMap("Player Quick Slots", throwIfNotFound: true);
         m_PlayerQuickSlots_Dpadup = m_PlayerQuickSlots.FindAction("D-pad up", throwIfNotFound: true);
@@ -524,6 +608,10 @@ public partial class @PlayerInputController : IInputActionCollection2, IDisposab
     private readonly InputAction m_PlayerActions_RT;
     private readonly InputAction m_PlayerActions_Interact;
     private readonly InputAction m_PlayerActions_InventouryUI;
+    private readonly InputAction m_PlayerActions_LockOn;
+    private readonly InputAction m_PlayerActions_LockOnRolling;
+    private readonly InputAction m_PlayerActions_LockOnLeft;
+    private readonly InputAction m_PlayerActions_LockOnRight;
     public struct PlayerActionsActions
     {
         private @PlayerInputController m_Wrapper;
@@ -534,6 +622,10 @@ public partial class @PlayerInputController : IInputActionCollection2, IDisposab
         public InputAction @RT => m_Wrapper.m_PlayerActions_RT;
         public InputAction @Interact => m_Wrapper.m_PlayerActions_Interact;
         public InputAction @InventouryUI => m_Wrapper.m_PlayerActions_InventouryUI;
+        public InputAction @LockOn => m_Wrapper.m_PlayerActions_LockOn;
+        public InputAction @LockOnRolling => m_Wrapper.m_PlayerActions_LockOnRolling;
+        public InputAction @LockOnLeft => m_Wrapper.m_PlayerActions_LockOnLeft;
+        public InputAction @LockOnRight => m_Wrapper.m_PlayerActions_LockOnRight;
         public InputActionMap Get() { return m_Wrapper.m_PlayerActions; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -561,6 +653,18 @@ public partial class @PlayerInputController : IInputActionCollection2, IDisposab
                 @InventouryUI.started -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnInventouryUI;
                 @InventouryUI.performed -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnInventouryUI;
                 @InventouryUI.canceled -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnInventouryUI;
+                @LockOn.started -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnLockOn;
+                @LockOn.performed -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnLockOn;
+                @LockOn.canceled -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnLockOn;
+                @LockOnRolling.started -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnLockOnRolling;
+                @LockOnRolling.performed -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnLockOnRolling;
+                @LockOnRolling.canceled -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnLockOnRolling;
+                @LockOnLeft.started -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnLockOnLeft;
+                @LockOnLeft.performed -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnLockOnLeft;
+                @LockOnLeft.canceled -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnLockOnLeft;
+                @LockOnRight.started -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnLockOnRight;
+                @LockOnRight.performed -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnLockOnRight;
+                @LockOnRight.canceled -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnLockOnRight;
             }
             m_Wrapper.m_PlayerActionsActionsCallbackInterface = instance;
             if (instance != null)
@@ -583,6 +687,18 @@ public partial class @PlayerInputController : IInputActionCollection2, IDisposab
                 @InventouryUI.started += instance.OnInventouryUI;
                 @InventouryUI.performed += instance.OnInventouryUI;
                 @InventouryUI.canceled += instance.OnInventouryUI;
+                @LockOn.started += instance.OnLockOn;
+                @LockOn.performed += instance.OnLockOn;
+                @LockOn.canceled += instance.OnLockOn;
+                @LockOnRolling.started += instance.OnLockOnRolling;
+                @LockOnRolling.performed += instance.OnLockOnRolling;
+                @LockOnRolling.canceled += instance.OnLockOnRolling;
+                @LockOnLeft.started += instance.OnLockOnLeft;
+                @LockOnLeft.performed += instance.OnLockOnLeft;
+                @LockOnLeft.canceled += instance.OnLockOnLeft;
+                @LockOnRight.started += instance.OnLockOnRight;
+                @LockOnRight.performed += instance.OnLockOnRight;
+                @LockOnRight.canceled += instance.OnLockOnRight;
             }
         }
     }
@@ -657,6 +773,10 @@ public partial class @PlayerInputController : IInputActionCollection2, IDisposab
         void OnRT(InputAction.CallbackContext context);
         void OnInteract(InputAction.CallbackContext context);
         void OnInventouryUI(InputAction.CallbackContext context);
+        void OnLockOn(InputAction.CallbackContext context);
+        void OnLockOnRolling(InputAction.CallbackContext context);
+        void OnLockOnLeft(InputAction.CallbackContext context);
+        void OnLockOnRight(InputAction.CallbackContext context);
     }
     public interface IPlayerQuickSlotsActions
     {

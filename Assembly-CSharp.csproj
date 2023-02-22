@@ -63,10 +63,11 @@
     <Compile Include="Assets\Scripts\UI\UIManager.cs" />
     <Compile Include="Assets\Scripts\UI\HandleEquitmentSlotUI.cs" />
     <Compile Include="Assets\Scripts\UI\StaminaBarUI.cs" />
-    <Compile Include="Assets\Scripts\Player\PlayerManager.cs" />
+    <Compile Include="Assets\Scripts\Manager\PlayerManager.cs" />
     <Compile Include="Assets\Scripts\Items\DamageCollider.cs" />
     <Compile Include="Assets\Scripts\DamagePlayer.cs" />
     <Compile Include="Assets\Scripts\Handler\AnimatorHandler.cs" />
+    <Compile Include="Assets\Scripts\Manager\CharacterManager.cs" />
     <Compile Include="Assets\Scripts\UI\EquitmentWindowUI.cs" />
     <Compile Include="Assets\PolygonFantasyHeroCharacters\Scripts\CharacterRandomizer.cs" />
     <Compile Include="Assets\Scripts\Test.cs" />
@@ -85,8 +86,9 @@
     <Compile Include="Assets\TestIK.cs" />
     <Compile Include="Assets\Scripts\Handler\CameraHandler.cs" />
     <Compile Include="Assets\Scripts\ResetAnimatorBool.cs" />
-    <Compile Include="Assets\Scripts\Items\WeaponSlotManager.cs" />
+    <Compile Include="Assets\Scripts\Manager\WeaponSlotManager.cs" />
     <Compile Include="Assets\Scripts\Items\Interactable.cs" />
+    <Compile Include="Assets\Scripts\Manager\EnemyManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Art\Models\爱莉希雅女仆\使用规则.txt" />
