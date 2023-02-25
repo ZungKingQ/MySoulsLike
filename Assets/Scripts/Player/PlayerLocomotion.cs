@@ -13,7 +13,7 @@ namespace ZQ
             sprintingSpeed = 7
         };
         PlayerManager playerManager;
-
+        CameraHandler cameraHandler;
         Transform cameraObject;
         InputHandler inputHandler;
         public Vector3 moveDirection;
@@ -41,7 +41,10 @@ namespace ZQ
         [SerializeField]
         float fallingSpeed = 300;
 
-
+        private void Awake()
+        {
+            cameraHandler = FindObjectOfType<CameraHandler>();
+        }
         private void Start()
         {
             rigidbody = GetComponent<Rigidbody>();
@@ -61,25 +64,61 @@ namespace ZQ
         Vector3 targetPositon;
         private void HandleRotation(float delta)
         {
-            Vector3 targetDir = Vector3.zero;
-            float moveOverride = inputHandler.moveAmout;
-
-            //得到旋转的单位方向矢量
-            targetDir += cameraObject.forward * inputHandler.vertical;
-            targetDir += cameraObject.right * inputHandler.horizontal;
-            targetDir.Normalize();
-            targetDir.y = 0;
-
-            if (targetDir == Vector3.zero)
+            // 锁定时，摄像机视角受控制
+            if(inputHandler.lockOn_Flag)
             {
-                targetDir = myTransform.forward;
+                if(inputHandler.sprintFlag || inputHandler.rollFlag)
+                {
+                    // 锁定时，摄像机视角受控制，因此使用cameraHandler.cameraTransform的方向，朝目标方向做冲刺与翻滚
+                    Vector3 targetDirection = Vector3.zero;
+                    targetDirection += cameraHandler.cameraTransform.forward * inputHandler.vertical;
+                    targetDirection += cameraHandler.cameraTransform.right * inputHandler.horizontal;
+                    targetDirection.Normalize();
+                    targetDirection.y = 0;
+
+                    if (targetDirection == Vector3.zero)
+                    {
+                        targetDirection = transform.forward;
+                    }
+
+                    Quaternion tr = Quaternion.LookRotation(targetDirection);
+                    Quaternion targetRotation = Quaternion.Slerp(transform.rotation, tr, rotationSpeed * Time.deltaTime);
+                    transform.rotation = targetRotation;
+                }
+                else
+                {
+                    Vector3 rotationDirection = moveDirection;
+                    rotationDirection = cameraHandler.currentLockOnTarget.position - transform.position;
+                    rotationDirection.Normalize();
+                    rotationDirection.y = 0;
+                    Quaternion tr = Quaternion.LookRotation(rotationDirection);
+                    Quaternion targetRotation = Quaternion.Slerp(transform.rotation, tr, rotationSpeed * Time.deltaTime);
+                    transform.rotation = targetRotation;
+                }
             }
-            float rs = rotationSpeed;
+            // 不锁定时，正常的旋转控制
+            else
+            {
+                Vector3 targetDir = Vector3.zero;
+                float moveOverride = inputHandler.moveAmout;
 
-            Quaternion tr = Quaternion.LookRotation(targetDir);
-            Quaternion targetRotation = Quaternion.Slerp(myTransform.rotation, tr, rs * delta);
+                //得到旋转位置的单位方向矢量
+                targetDir += cameraObject.forward * inputHandler.vertical;
+                targetDir += cameraObject.right * inputHandler.horizontal;
+                targetDir.Normalize();
+                targetDir.y = 0;
 
-            myTransform.rotation = targetRotation;
+                if (targetDir == Vector3.zero)
+                {
+                    targetDir = myTransform.forward;
+                }
+                float rs = rotationSpeed;
+
+                Quaternion tr = Quaternion.LookRotation(targetDir);
+                Quaternion targetRotation = Quaternion.Slerp(myTransform.rotation, tr, rs * delta);
+
+                myTransform.rotation = targetRotation;
+            }
         }
         public void HandleMovement(float delta)
         {
@@ -113,7 +152,16 @@ namespace ZQ
             Vector3 projectVelocity = Vector3.ProjectOnPlane(moveDirection, normalVector);
             rigidbody.velocity = projectVelocity;
 
-            animatorHandler.UpdateAnimatorValues(inputHandler.moveAmout, 0, playerManager.isSprinting);
+            if(inputHandler.lockOn_Flag && !inputHandler.sprintFlag)
+            {
+                // 锁定状态下，不做旋转控制，因此给horizontal赋值，做左右的平移移动
+                animatorHandler.UpdateAnimatorValues(inputHandler.vertical, inputHandler.horizontal, playerManager.isSprinting);
+            }
+            else
+            {
+                // 在HandleRotation中做旋转控制，因此设置horizontal参数为0
+                animatorHandler.UpdateAnimatorValues(inputHandler.moveAmout, 0, playerManager.isSprinting);
+            }
             if (animatorHandler.canRotate)
             {
                 HandleRotation(Time.deltaTime);

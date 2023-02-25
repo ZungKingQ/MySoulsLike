@@ -31,9 +31,9 @@ namespace ZQ
         public bool inventoryUI_Flag;
         public bool lockOn_Flag;
 
-        public bool a_Input;
-        public bool rb_Input;
-        public bool rt_Input;
+        public bool interact_Input;
+        public bool lightAttack_Input;
+        public bool heavyAttack_Input;
         public bool jump_Input;
         public bool inventoryUI_Input;
         public bool equitmentUI_Input;
@@ -63,11 +63,11 @@ namespace ZQ
                 playerInputController = new PlayerInputController();
                 playerInputController.PlayerMovement.Move.performed += i => movementInput = i.ReadValue<Vector2>();
                 playerInputController.PlayerMovement.Camera.performed += i => cameraInput = i.ReadValue<Vector2>();
-                playerInputController.PlayerActions.RB.performed += i => rb_Input = true;
-                playerInputController.PlayerActions.RT.performed += i => rt_Input = true;
+                playerInputController.PlayerActions.LightAttack.performed += i => lightAttack_Input = true;
+                playerInputController.PlayerActions.HeavyAttack.performed += i => heavyAttack_Input = true;
                 playerInputController.PlayerQuickSlots.DpadRight.performed += i => d_Pad_Right = true;
                 playerInputController.PlayerQuickSlots.DpadLeft.performed += i => d_Pad_Left = true;
-                playerInputController.PlayerActions.Interact.performed += i => a_Input = true;
+                playerInputController.PlayerActions.Interact.performed += i => interact_Input = true;
                 playerInputController.PlayerActions.Jump.performed += i => jump_Input = true;
                 playerInputController.PlayerActions.InventouryUI.performed += i => inventoryUI_Input = true;
                 playerInputController.PlayerActions.LockOn.performed += i => lockOn_Input = true;
@@ -82,20 +82,21 @@ namespace ZQ
         }
         public void TickInput(float delta)
         {
-            MoveInput(delta);
+            HandleMoveInput(delta);
             HandleRollInput(delta);
             HandleAttackInput(delta);
             HandleQuickSlotsInput();
             HandleInventoryUIInput();
             HandleLockOnInput();
         }
-        public void MoveInput(float dalta)
+        public void HandleMoveInput(float dalta)
         {
             Oppsite = IsOpposite == true ? Oppsite : 1;
             this.horizontal = movementInput.x;
             this.vertical = movementInput.y;
             //作为Animator中移动Action的参数
             this.moveAmout = Mathf.Clamp01(Mathf.Abs(horizontal) + Mathf.Abs(vertical));
+
             this.mouseX = cameraInput.x * Oppsite;
             this.mouseY = cameraInput.y * Oppsite;
         }
@@ -121,7 +122,7 @@ namespace ZQ
         }
         public void HandleAttackInput(float delta)
         {
-            if (rb_Input)
+            if (lightAttack_Input)
             {
                 if(playerManager.canDoCombo)
                 {
@@ -140,7 +141,7 @@ namespace ZQ
                 }
                 comboFlag = false;
             }
-            if(rt_Input)
+            if(heavyAttack_Input)
             {
                 playerAttacker.HandleHeavyAttack(playerInventory.rightWeapon);
             }
@@ -239,6 +240,8 @@ namespace ZQ
                     cameraHandler.currentLockOnTarget = cameraHandler.rightLockOnTarget;
                 }
             }
+
+            cameraHandler.SetCameraHeight();
         }
     }
 }

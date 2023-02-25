@@ -66,9 +66,9 @@ namespace ZQ
             float delta = Time.fixedDeltaTime;
 
             inputHandler.rollFlag = false;
-            inputHandler.a_Input = false;
-            inputHandler.rb_Input = false;
-            inputHandler.rt_Input = false;
+            inputHandler.interact_Input = false;
+            inputHandler.lightAttack_Input = false;
+            inputHandler.heavyAttack_Input = false;
             inputHandler.jump_Input = false;
             inputHandler.inventoryUI_Input = false;
             inputHandler.equitmentUI_Input = false;
@@ -100,7 +100,7 @@ namespace ZQ
                         interactableUI.interactableText.text = interactableText;
                         interactionPopUp.SetActive(true);
 
-                        if(inputHandler.a_Input)
+                        if(inputHandler.interact_Input)
                         {
                             hit.collider.GetComponent<Interactable>().Interact(this);
                             StartCoroutine(InteractFading());

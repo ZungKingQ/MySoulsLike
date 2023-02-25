@@ -1440,9 +1440,15 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   inputHandler: {fileID: 1423303907}
+  playerManager: {fileID: 1423303908}
   cameraCollisionOffset: 0.2
   minimumCollisionOffset: 0.2
   maximunLockOnDistrance: 30
+  lockPivotPosition: 2.25
+  unlockPivotPosition: 1.65
+  enviromentLayer:
+    serializedVersion: 2
+    m_Bits: 0
   nearestLockOnTarget: {fileID: 0}
   currentLockOnTarget: {fileID: 0}
   leftLockOnTarget: {fileID: 0}
@@ -6459,9 +6465,9 @@ MonoBehaviour:
   comboFlag: 0
   inventoryUI_Flag: 0
   lockOn_Flag: 0
-  a_Input: 0
-  rb_Input: 0
-  rt_Input: 0
+  interact_Input: 0
+  lightAttack_Input: 0
+  heavyAttack_Input: 0
   jump_Input: 0
   inventoryUI_Input: 0
   equitmentUI_Input: 0

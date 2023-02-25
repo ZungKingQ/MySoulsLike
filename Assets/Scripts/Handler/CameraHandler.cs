@@ -13,6 +13,7 @@ namespace ZQ
         private Vector3 cameraTransformPosition;
         public LayerMask ignoreLayers;
         public InputHandler inputHandler;
+        public PlayerManager playerManager;
 
         public static CameraHandler instance;
 
@@ -33,6 +34,10 @@ namespace ZQ
         public float cameraCollisionOffset = 0.2f;
         public float minimumCollisionOffset = 0.2f;
         public float maximunLockOnDistrance = 30;
+        public float lockPivotPosition = 2.25f; //?
+        public float unlockPivotPosition = 1.65f;   //?
+
+        public LayerMask enviromentLayer;
         public Transform nearestLockOnTarget;
         public Transform currentLockOnTarget;
         public Transform leftLockOnTarget;
@@ -159,11 +164,26 @@ namespace ZQ
                     float distanceFromTarget = Vector3.Distance(targetTransform.position, characterManager.transform.position);
                     // 角度
                     float viewableAngle = Vector3.Angle(lockTargetPosition, cameraTransform.forward);
+                    RaycastHit hit;
                     // 碰撞体非角色且abs(viewableAngle)<50且距离在可锁定距离范围之内
                     if (characterManager.transform.root != targetTransform.transform.transform.root && viewableAngle > -50 && viewableAngle < 50 && distanceFromTarget <= maximunLockOnDistrance)
                     {
-                        // 添加到有意义的列表中
-                        availableTargets.Add(characterManager);
+                        // 得到两点之间的碰撞体信息
+                        if(Physics.Linecast(playerManager.lockOnTransform.position, characterManager.lockOnTransform.position, out hit))
+                        {
+                            Debug.DrawLine(playerManager.lockOnTransform.position, characterManager.lockOnTransform.position);
+                            
+                            // 如果存在阻挡，则无法锁定
+                            if(hit.transform.gameObject.layer == enviromentLayer)
+                            {
+                                // cannot lock onto target, object in the way
+                            }
+                            else
+                            {
+                                // 添加到有意义的列表中
+                                availableTargets.Add(characterManager);
+                            }
+                        }
                     }
                 }
             }
@@ -205,6 +225,24 @@ namespace ZQ
             availableTargets.Clear();
             currentLockOnTarget = null;
             nearestLockOnTarget = null;
+        }
+        /// <summary>
+        /// 设置摄像机锁定与非锁定状态下的pivot高度
+        /// </summary>
+        public void SetCameraHeight()
+        {
+            Vector3 velocity = Vector3.zero;
+            Vector3 newLockPosition = new Vector3(0, lockPivotPosition);
+            Vector3 newUnlockPosition = new Vector3(0, unlockPivotPosition);
+
+            if(currentLockOnTarget != null)
+            {
+                cameraPivotTransform.transform.localPosition = Vector3.SmoothDamp(cameraPivotTransform.transform.localPosition, newLockPosition, ref velocity, Time.deltaTime);
+            }
+            else
+            {
+                cameraPivotTransform.transform.localPosition = Vector3.SmoothDamp(cameraPivotTransform.transform.localPosition, newUnlockPosition, ref velocity, Time.deltaTime);
+            }
         }
     }
 }
