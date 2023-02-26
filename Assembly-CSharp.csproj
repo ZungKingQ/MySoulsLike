@@ -60,8 +60,9 @@
     <Compile Include="Assets\Mixamo\Magic Pack\Demo\CameraScroll.cs" />
     <Compile Include="Assets\Scripts\UI\WeaponInventorySlot.cs" />
     <Compile Include="Assets\Scripts\Items\Item.cs" />
-    <Compile Include="Assets\Scripts\UI\UIManager.cs" />
+    <Compile Include="Assets\Scripts\Manager\UIManager.cs" />
     <Compile Include="Assets\Scripts\UI\HandleEquitmentSlotUI.cs" />
+    <Compile Include="Assets\Scripts\Manager\EnemyManager.cs" />
     <Compile Include="Assets\Scripts\UI\StaminaBarUI.cs" />
     <Compile Include="Assets\Scripts\Manager\PlayerManager.cs" />
     <Compile Include="Assets\Scripts\Items\DamageCollider.cs" />
@@ -88,7 +89,6 @@
     <Compile Include="Assets\Scripts\ResetAnimatorBool.cs" />
     <Compile Include="Assets\Scripts\Manager\WeaponSlotManager.cs" />
     <Compile Include="Assets\Scripts\Items\Interactable.cs" />
-    <Compile Include="Assets\Scripts\Manager\EnemyManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Art\Models\爱莉希雅女仆\使用规则.txt" />

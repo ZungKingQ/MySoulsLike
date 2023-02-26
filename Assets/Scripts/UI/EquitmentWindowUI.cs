@@ -15,11 +15,8 @@ namespace ZQ
         public bool leftHandSlot01_Selected;
         public bool leftHandSlot02_Selected;
 
-        HandleEquitmentSlotUI[] handleEquitmentSlotUI;
-        private void Awake()
-        {
-            handleEquitmentSlotUI = GetComponentsInChildren<HandleEquitmentSlotUI>();
-        }
+        public HandleEquitmentSlotUI[] handleEquitmentSlotUI;
+
         public void LoadWeaponsOnEquitmemtScreen(PlayerInventory playerInventory)
         {
             for (int i = 0; i < handleEquitmentSlotUI.Length; i++)
